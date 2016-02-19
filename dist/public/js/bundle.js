@@ -31292,25 +31292,35 @@ module.exports = warning;
 module.exports = require('./lib/React');
 
 },{"./lib/React":28}],161:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var React = require('react');
 
 var AddItem = module.exports = React.createClass({
-  displayName: "exports",
+  displayName: 'exports',
 
+  getInitialState: function getInitialState() {
+    return { value: '' };
+  },
+  handleChange: function handleChange(event) {
+    this.setState({ value: event.target.value });
+  },
+  addItem: function addItem(event) {
+    event.preventDefault();
+    console.log('Adding Item!', this.state.value);
+  },
   render: function render() {
     return React.createElement(
-      "div",
-      { className: "addItem" },
+      'div',
+      { className: 'addItem' },
       React.createElement(
-        "form",
-        { action: "" },
-        React.createElement("input", { type: "text" }),
+        'form',
+        { action: '', onSubmit: this.addItem },
+        React.createElement('input', { type: 'text', value: this.state.input, onChange: this.handleChange }),
         React.createElement(
-          "button",
+          'button',
           null,
-          "Add Item"
+          'Add Item'
         )
       )
     );

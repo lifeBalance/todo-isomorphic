@@ -1,5 +1,6 @@
 var React   = require('react');
 var Item    = require('./Item');
+var AddItem = require('./AddItem');
 
 var ItemList = module.exports = React.createClass({
   render: function () {
@@ -11,6 +12,8 @@ var ItemList = module.exports = React.createClass({
             return (<Item item={item} key={'item' + index} />);
           })}
         </div>
+
+        <AddItem />
       </div>
     );
   }

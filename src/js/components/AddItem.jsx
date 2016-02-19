@@ -1,4 +1,5 @@
-var React = require('react');
+var React   = require('react');
+var action  = require('../actions/ItemActionCreator');
 
 var AddItem = module.exports = React.createClass({
   getInitialState: function () {
@@ -10,6 +11,12 @@ var AddItem = module.exports = React.createClass({
   addItem: function (event) {
     event.preventDefault();
     console.log('Adding Item!', this.state.value);
+
+    action.add({
+      name: this.state.value
+    });
+
+    this.setState({value: ''}); // Resetting state of the input
   },
   render: function () {
     return (

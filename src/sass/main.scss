@@ -8,6 +8,7 @@ body {
   background-color: $greyish;
 }
 
-.jumbotron {
-  margin-top: 1em;
+.strikethrough {
+  text-decoration: line-through;
+  @extend .text-muted;
 }

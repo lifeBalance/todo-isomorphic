@@ -1,10 +1,11 @@
 @import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/theme';
 
-$blackish:  #333333;
+$blackish:  #333;
+$greyish:  #ccc;
 
 body {
-  background-color: $blackish;
+  background-color: $greyish;
 }
 
 .jumbotron {

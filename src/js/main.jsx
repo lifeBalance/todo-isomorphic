@@ -4,6 +4,22 @@ var bootstrapJS = require('bootstrap-sass'); // Bootstrap JavaScripts.
 
 var React     = require('react');
 var ReactDOM  = require('react-dom');
-var Foo       = require('./components/foo');
+var ItemList  = require('./components/ItemList');
 
-ReactDOM.render(<Foo/>, document.getElementById('root'));
+var initialItems = [
+  {
+    name: 'Do the laundry.'
+  },
+  {
+    name: 'Take out the trash.'
+  },
+  {
+    name: "Fix garage lights.",
+    done: true
+  },
+];
+
+ReactDOM.render(<ItemList items={initialItems} />, document.getElementById('container'));
+{/*  We could use just: ReactDOM.render(<ItemList/>, container);
+    This is because all DOM elements with an `id` attribute, are
+    put in the global scope. */}

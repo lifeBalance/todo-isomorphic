@@ -31296,144 +31296,34 @@ module.exports = require('./lib/React');
 
 var React = require('react');
 
-var Alert = React.createClass({
-  displayName: 'Alert',
+var ItemList = module.exports = React.createClass({
+  displayName: 'exports',
 
-  propTypes: {
-    message: React.PropTypes.string.isRequired,
-    type: React.PropTypes.string.isRequired
-  },
   render: function render() {
     return React.createElement(
       'div',
-      { className: 'alert alert-dismissible alert-' + this.props.type, role: 'alert' },
+      null,
       React.createElement(
-        'button',
-        { type: 'button', className: 'close', 'data-dismiss': 'alert', 'aria-label': 'Close' },
-        React.createElement(
-          'span',
-          { 'aria-hidden': 'true' },
-          '×'
-        )
-      ),
-      React.createElement(
-        'strong',
+        'h1',
         null,
-        'Success!'
+        'To-Do List'
       ),
-      this.props.message
-    );
-  }
-});
-
-module.exports = Alert;
-
-},{"react":160}],162:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-
-var Button = React.createClass({
-  displayName: 'Button',
-
-  propTypes: {
-    href: React.PropTypes.string.isRequired,
-    size: React.PropTypes.string.isRequired,
-    type: React.PropTypes.string.isRequired,
-    content: React.PropTypes.string.isRequired
-  },
-
-  render: function render() {
-    return React.createElement(
-      'a',
-      { className: 'btn btn-' + this.props.type + ' btn-' + this.props.size,
-        href: this.props.href,
-        target: '_blank',
-        role: 'button' },
-      this.props.content
-    );
-  }
-});
-
-module.exports = Button;
-
-},{"react":160}],163:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-
-// Some child components
-var Button = require('./button');
-var Alert = require('./alert');
-
-// A top level component.
-var Foo = React.createClass({
-  displayName: 'Foo',
-
-  render: function render() {
-    console.log('Testing Sourcemaps...'); // Delete me when finished.
-    return React.createElement(
-      'div',
-      { className: 'container' },
       React.createElement(
         'div',
-        { className: 'jumbotron' },
-        React.createElement(
-          'h1',
-          null,
-          'My React Kit'
-        ),
-        React.createElement(
-          'p',
-          null,
-          'A small simple kit to start playing with React.'
-        ),
-        React.createElement(
-          'ul',
-          null,
-          React.createElement(
-            'li',
+        null,
+        this.props.items.map(function (item, index) {
+          return React.createElement(
+            'div',
             null,
-            'React, React-DOM, React-Router, Flux'
-          ),
-          React.createElement(
-            'li',
-            null,
-            'Gulp, Watchify, BrowserSync, Babel'
-          ),
-          React.createElement(
-            'li',
-            null,
-            'Bootstrap-sass, jQuery'
-          ),
-          React.createElement(
-            'li',
-            null,
-            'Source Maps, and more...'
-          )
-        ),
-        React.createElement(
-          'p',
-          null,
-          'Check the ',
-          React.createElement(
-            'code',
-            null,
-            'package.json'
-          ),
-          ' file to find out about versions.'
-        ),
-        React.createElement(Button, { size: 'lg', type: 'primary', content: 'Learn React', href: 'https://facebook.github.io/react/docs/getting-started.html' })
-      ),
-      React.createElement(Alert, { message: 'If you can dismiss me, the Bootstrap scripts are working!',
-        type: 'warning' })
+            item.name
+          );
+        })
+      )
     );
   }
 });
 
-module.exports = Foo;
-
-},{"./alert":161,"./button":162,"react":160}],164:[function(require,module,exports){
+},{"react":160}],162:[function(require,module,exports){
 'use strict';
 
 // Bootstrap
@@ -31442,11 +31332,23 @@ var bootstrapJS = require('bootstrap-sass'); // Bootstrap JavaScripts.
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Foo = require('./components/foo');
+var ItemList = require('./components/ItemList');
 
-ReactDOM.render(React.createElement(Foo, null), document.getElementById('root'));
+var initialItems = [{
+  name: 'Do the laundry.'
+}, {
+  name: 'Take out the trash.'
+}, {
+  name: "Fix garage lights.",
+  done: true
+}];
 
-},{"./components/foo":163,"bootstrap-sass":1,"jquery":2,"react":160,"react-dom":4}]},{},[164])
+ReactDOM.render(React.createElement(ItemList, { items: initialItems }), document.getElementById('container'));
+{/*  We could use just: ReactDOM.render(<ItemList/>, container);
+     This is because all DOM elements with an `id` attribute, are
+     put in the global scope. */}
+
+},{"./components/ItemList":161,"bootstrap-sass":1,"jquery":2,"react":160,"react-dom":4}]},{},[162])
 
 
 //# sourceMappingURL=../maps/bundle.js.map

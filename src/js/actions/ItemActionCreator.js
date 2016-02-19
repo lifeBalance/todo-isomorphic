@@ -6,5 +6,11 @@ module.exports = {
       payload: item,
       type: 'item:add'
     });
+  },
+  delete: function (item) {
+    dispatcher.dispatch({
+      payload: item,
+      type: 'item:delete'
+    });
   }
 }

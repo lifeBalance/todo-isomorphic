@@ -31367,6 +31367,12 @@ module.exports = {
       payload: item,
       type: 'item:add'
     });
+  },
+  delete: function _delete(item) {
+    dispatcher.dispatch({
+      payload: item,
+      type: 'item:delete'
+    });
   }
 };
 
@@ -31402,7 +31408,7 @@ var AddItem = module.exports = React.createClass({
       React.createElement(
         'form',
         { action: '', onSubmit: this.addItem },
-        React.createElement('input', { type: 'text', value: this.state.input, onChange: this.handleChange }),
+        React.createElement('input', { type: 'text', value: this.state.value, onChange: this.handleChange }),
         React.createElement(
           'button',
           null,
@@ -31417,24 +31423,46 @@ var AddItem = module.exports = React.createClass({
 'use strict';
 
 var React = require('react');
+var action = require('../actions/ItemActionCreator');
 
 var Item = module.exports = React.createClass({
   displayName: 'exports',
 
+  delete: function _delete(event) {
+    event.preventDefault();
+    action.delete(this.props.item);
+  },
   render: function render() {
     return React.createElement(
       'div',
-      null,
+      { className: 'row' },
       React.createElement(
-        'h4',
-        { className: this.props.item.done ? 'strikethrough' : '' },
-        this.props.item.name
+        'div',
+        { className: 'col-md-6' },
+        React.createElement(
+          'h4',
+          { className: this.props.item.done ? 'strikethrough' : '' },
+          this.props.item.name
+        )
+      ),
+      React.createElement(
+        'div',
+        { className: 'col-md-6' },
+        React.createElement(
+          'form',
+          { action: '', onSubmit: this.delete },
+          React.createElement(
+            'button',
+            null,
+            '×'
+          )
+        )
       )
     );
   }
 });
 
-},{"react":161}],165:[function(require,module,exports){
+},{"../actions/ItemActionCreator":162,"react":161}],165:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -31498,22 +31526,105 @@ var bootstrapJS = require('bootstrap-sass'); // Bootstrap JavaScripts.
 var React = require('react');
 var ReactDOM = require('react-dom');
 var ItemList = require('./components/ItemList');
+var itemStore = require('./stores/ItemStore');
 
-var initialItems = [{
-  name: 'Do the laundry.'
-}, {
-  name: 'Take out the trash.'
-}, {
-  name: "Fix garage lights.",
-  done: true
-}];
+// var initialItems = [
+//   {
+//     name: 'Do the laundry.'
+//   },
+//   {
+//     name: 'Take out the trash.'
+//   },
+//   {
+//     name: "Fix garage lights.",
+//     done: true
+//   },
+// ];
+var initialItems = itemStore.getItems();
 
-ReactDOM.render(React.createElement(ItemList, { items: initialItems }), document.getElementById('container'));
-{/*  We could use just: ReactDOM.render(<ItemList/>, container);
+function render() {
+  ReactDOM.render(React.createElement(ItemList, { items: initialItems }), document.getElementById('container'));
+  {/*  We could use just: ReactDOM.render(<ItemList/>, container);
      This is because all DOM elements with an `id` attribute, are
      put in the global scope. */}
+}
 
-},{"./components/ItemList":165,"bootstrap-sass":1,"jquery":3,"react":161,"react-dom":5}]},{},[167])
+itemStore.onChange(function (items) {
+  initialItems = items;
+  render();
+});
+
+render(); // Render before any changes.
+
+},{"./components/ItemList":165,"./stores/ItemStore":168,"bootstrap-sass":1,"jquery":3,"react":161,"react-dom":5}],168:[function(require,module,exports){
+'use strict';
+
+var dispatcher = require('../dispatcher');
+
+function ItemStore() {
+  // var items = [];
+  // Provisionally until the backend is ready
+  var items = [{
+    name: 'Do the laundry.'
+  }, {
+    name: 'Take out the trash.'
+  }, {
+    name: "Fix garage lights.",
+    done: true
+  }];
+  var listeners = [];
+
+  function getItems() {
+    return items;
+  }
+
+  function addItem(item) {
+    items.push(item);
+    triggerListeners();
+  }
+
+  function deleteItem(item) {
+    var index = items.findIndex(function (_item) {
+      return _item.name === item.name;
+    });
+
+    items.splice(index, 1);
+    triggerListeners();
+  }
+
+  function onChange(listener) {
+    listeners.push(listener);
+  }
+
+  function triggerListeners() {
+    listeners.forEach(function (listener) {
+      listener(items);
+    });
+  }
+
+  dispatcher.register(function (event) {
+    var split = event.type.split(':');
+
+    if (split[0] === 'item') {
+      switch (split[1]) {
+        case 'add':
+          addItem(event.payload);
+          break;
+        case 'delete':
+          deleteItem(event.payload);
+          break;
+      }
+    }
+  });
+
+  return { // Only 2 parts of the store exposed to outside.
+    getItems: getItems,
+    onChange: onChange
+  };
+}
+module.exports = new ItemStore();
+
+},{"../dispatcher":166}]},{},[167])
 
 
 //# sourceMappingURL=../maps/bundle.js.map

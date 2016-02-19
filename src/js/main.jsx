@@ -5,21 +5,32 @@ var bootstrapJS = require('bootstrap-sass'); // Bootstrap JavaScripts.
 var React     = require('react');
 var ReactDOM  = require('react-dom');
 var ItemList  = require('./components/ItemList');
+var itemStore = require('./stores/ItemStore');
 
-var initialItems = [
-  {
-    name: 'Do the laundry.'
-  },
-  {
-    name: 'Take out the trash.'
-  },
-  {
-    name: "Fix garage lights.",
-    done: true
-  },
-];
+// var initialItems = [
+//   {
+//     name: 'Do the laundry.'
+//   },
+//   {
+//     name: 'Take out the trash.'
+//   },
+//   {
+//     name: "Fix garage lights.",
+//     done: true
+//   },
+// ];
+var initialItems = itemStore.getItems();
 
-ReactDOM.render(<ItemList items={initialItems} />, document.getElementById('container'));
-{/*  We could use just: ReactDOM.render(<ItemList/>, container);
+function render() {
+  ReactDOM.render(<ItemList items={initialItems} />, document.getElementById('container'));
+  {/*  We could use just: ReactDOM.render(<ItemList/>, container);
     This is because all DOM elements with an `id` attribute, are
     put in the global scope. */}
+}
+
+itemStore.onChange(function (items) {
+  initialItems = items;
+  render();
+});
+
+render(); // Render before any changes.

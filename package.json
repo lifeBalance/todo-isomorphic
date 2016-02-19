@@ -29,8 +29,9 @@
   "dependencies": {
     "bootstrap-sass": "^3.3.6",
     "express": "^4.13.4",
-    "jade": "^1.11.0",
     "flux": "^2.1.1",
+    "guid": "0.0.12",
+    "jade": "^1.11.0",
     "jquery": "^2.2.0",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",

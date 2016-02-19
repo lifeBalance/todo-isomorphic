@@ -1,5 +1,5 @@
-var React = require('react');
-var Item  = require('./Item');
+var React   = require('react');
+var Item    = require('./Item');
 
 var ItemList = module.exports = React.createClass({
   render: function () {

@@ -31292,6 +31292,32 @@ module.exports = warning;
 module.exports = require('./lib/React');
 
 },{"./lib/React":28}],161:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+
+var AddItem = module.exports = React.createClass({
+  displayName: "exports",
+
+  render: function render() {
+    return React.createElement(
+      "div",
+      { className: "addItem" },
+      React.createElement(
+        "form",
+        { action: "" },
+        React.createElement("input", { type: "text" }),
+        React.createElement(
+          "button",
+          null,
+          "Add Item"
+        )
+      )
+    );
+  }
+});
+
+},{"react":160}],162:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -31312,11 +31338,12 @@ var Item = module.exports = React.createClass({
   }
 });
 
-},{"react":160}],162:[function(require,module,exports){
+},{"react":160}],163:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
 var Item = require('./Item');
+var AddItem = require('./AddItem');
 
 var ItemList = module.exports = React.createClass({
   displayName: 'exports',
@@ -31336,12 +31363,13 @@ var ItemList = module.exports = React.createClass({
         this.props.items.map(function (item, index) {
           return React.createElement(Item, { item: item, key: 'item' + index });
         })
-      )
+      ),
+      React.createElement(AddItem, null)
     );
   }
 });
 
-},{"./Item":161,"react":160}],163:[function(require,module,exports){
+},{"./AddItem":161,"./Item":162,"react":160}],164:[function(require,module,exports){
 'use strict';
 
 // Bootstrap
@@ -31366,7 +31394,7 @@ ReactDOM.render(React.createElement(ItemList, { items: initialItems }), document
      This is because all DOM elements with an `id` attribute, are
      put in the global scope. */}
 
-},{"./components/ItemList":162,"bootstrap-sass":1,"jquery":2,"react":160,"react-dom":4}]},{},[163])
+},{"./components/ItemList":163,"bootstrap-sass":1,"jquery":2,"react":160,"react-dom":4}]},{},[164])
 
 
 //# sourceMappingURL=../maps/bundle.js.map

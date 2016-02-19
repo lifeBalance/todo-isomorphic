@@ -20,12 +20,13 @@ var AddItem = module.exports = React.createClass({
   },
   render: function () {
     return (
-      <div className="addItem">
-        <form action="" onSubmit={this.addItem}>
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-          <button>Add Item</button>
-        </form>
-      </div>
+      <form action="" onSubmit={this.addItem} className="form-inline">
+        <button className='btn btn-primary'>Add Item</button>
+
+        <div className="form-group">
+          <input type="text" className='form-control' value={this.state.value} onChange={this.handleChange} />
+        </div>
+      </form>
     );
   }
 });

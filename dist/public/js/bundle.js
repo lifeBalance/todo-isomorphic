@@ -31415,17 +31415,17 @@ var AddItem = module.exports = React.createClass({
   },
   render: function render() {
     return React.createElement(
-      'div',
-      { className: 'addItem' },
+      'form',
+      { action: '', onSubmit: this.addItem, className: 'form-inline' },
       React.createElement(
-        'form',
-        { action: '', onSubmit: this.addItem },
-        React.createElement('input', { type: 'text', value: this.state.value, onChange: this.handleChange }),
-        React.createElement(
-          'button',
-          null,
-          'Add Item'
-        )
+        'button',
+        { className: 'btn btn-primary' },
+        'Add Item'
+      ),
+      React.createElement(
+        'div',
+        { className: 'form-group' },
+        React.createElement('input', { type: 'text', className: 'form-control', value: this.state.value, onChange: this.handleChange })
       )
     );
   }
@@ -31454,52 +31454,58 @@ var Item = module.exports = React.createClass({
     }
   },
   render: function render() {
-    var buttonClass, buttonText;
+    var buttonClass, buttonText, taskText;
 
     if (this.props.item.done) {
-      buttonClass = 'btn btn-xs btn-default';
+      buttonClass = 'btn btn-sm btn-default';
       buttonText = 'Undo';
+      taskText = 'text-left lead col-xs-6 strikethrough';
     } else {
-      buttonClass = 'btn btn-xs btn-success';
+      buttonClass = 'btn btn-sm btn-success';
       buttonText = 'Done';
+      taskText = 'text-left lead col-xs-6';
     }
 
     return React.createElement(
-      'div',
-      { className: 'row' },
+      'table',
+      { className: 'table table-responsive' },
       React.createElement(
-        'div',
-        { className: 'col-md-1' },
+        'tbody',
+        null,
         React.createElement(
-          'form',
-          { action: '', onSubmit: this.delete },
+          'tr',
+          null,
           React.createElement(
-            'button',
-            { className: 'btn btn-xs btn-danger' },
-            'Delete'
-          )
-        )
-      ),
-      React.createElement(
-        'div',
-        { className: 'col-md-1' },
-        React.createElement(
-          'form',
-          { action: '', onSubmit: this.toggleDone },
+            'td',
+            { className: taskText },
+            this.props.item.name
+          ),
           React.createElement(
-            'button',
-            { className: buttonClass },
-            buttonText
+            'td',
+            { className: 'col-xs-2' },
+            React.createElement(
+              'form',
+              { onSubmit: this.delete },
+              React.createElement(
+                'button',
+                { className: 'btn btn-sm btn-danger' },
+                'Delete'
+              )
+            )
+          ),
+          React.createElement(
+            'td',
+            { className: 'col-xs-2' },
+            React.createElement(
+              'form',
+              { onSubmit: this.toggleDone },
+              React.createElement(
+                'button',
+                { className: buttonClass },
+                buttonText
+              )
+            )
           )
-        )
-      ),
-      React.createElement(
-        'div',
-        { className: 'col-md-6' },
-        React.createElement(
-          'h4',
-          { className: this.props.item.done ? 'strikethrough' : '' },
-          this.props.item.name
         )
       )
     );
@@ -31522,7 +31528,7 @@ var ItemList = module.exports = React.createClass({
       null,
       React.createElement(
         'h1',
-        null,
+        { className: 'lead text-center' },
         'To-Do List'
       ),
       React.createElement(

@@ -16,36 +16,40 @@ var Item = module.exports = React.createClass({
     }
   },
   render: function () {
-    var buttonClass, buttonText;
+    var buttonClass, buttonText, taskText;
 
     if (this.props.item.done) {
-      buttonClass = 'btn btn-xs btn-default';
+      buttonClass = 'btn btn-sm btn-default';
       buttonText = 'Undo';
+      taskText = 'text-left lead col-xs-6 strikethrough';
     } else {
-      buttonClass = 'btn btn-xs btn-success';
+      buttonClass = 'btn btn-sm btn-success';
       buttonText = 'Done';
+      taskText = 'text-left lead col-xs-6';
     }
 
     return (
-      <div className='row'>
-        <div className="col-md-1">
-          <form action="" onSubmit={this.delete}>
-            <button className='btn btn-xs btn-danger'>Delete</button>
-          </form>
-        </div>
+      <table className='table table-responsive'>
+        <tbody>
+          <tr>
+            <td className={taskText}>
+              {this.props.item.name}
+            </td>
 
-        <div className="col-md-1">
-          <form action="" onSubmit={this.toggleDone}>
-            <button className={buttonClass}>{buttonText}</button>
-          </form>
-        </div>
+            <td className='col-xs-2'>
+              <form onSubmit={this.delete}>
+                <button className='btn btn-sm btn-danger'>Delete</button>
+              </form>
+            </td>
 
-        <div className='col-md-6'>
-          <h4 className={this.props.item.done? 'strikethrough' : ''}>
-            {this.props.item.name}
-          </h4>
-        </div>
-      </div>
+            <td className='col-xs-2'>
+              <form onSubmit={this.toggleDone}>
+                <button className={buttonClass}>{buttonText}</button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     );
   }
 });

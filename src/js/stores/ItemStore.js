@@ -31,7 +31,21 @@ function ItemStore() {
       return _item.name === item.name;
     });
 
+    console.log('Deleting item', item.name);
+
     items.splice(index, 1);
+    triggerListeners();
+  }
+
+  function toggleItemDone(item, isDone) {
+    var index = items.findIndex(function (_item) {
+      return _item.name === item.name;
+    });
+
+    console.log('Toggling item', item.name, 'to', item.done);
+
+    items[index].done = !isDone;
+
     triggerListeners();
   }
 
@@ -55,6 +69,12 @@ function ItemStore() {
         break;
       case 'delete':
         deleteItem(event.payload);
+        break;
+      case 'doItem':
+        toggleItemDone(event.payload, true);
+        break;
+      case 'undoItem':
+        toggleItemDone(event.payload, false);
         break;
       }
     }

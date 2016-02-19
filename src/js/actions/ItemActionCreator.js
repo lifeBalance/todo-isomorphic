@@ -12,5 +12,17 @@ module.exports = {
       payload: item,
       type: 'item:delete'
     });
+  },
+  doItem: function (item) {
+    dispatcher.dispatch({
+      payload: item,
+      type: 'item:doItem'
+    });
+  },
+  undoItem: function (item) {
+    dispatcher.dispatch({
+      payload: item,
+      type: 'item:undoItem'
+    });
   }
 }

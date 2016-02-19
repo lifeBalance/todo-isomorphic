@@ -31373,6 +31373,18 @@ module.exports = {
       payload: item,
       type: 'item:delete'
     });
+  },
+  doItem: function doItem(item) {
+    dispatcher.dispatch({
+      payload: item,
+      type: 'item:doItem'
+    });
+  },
+  undoItem: function undoItem(item) {
+    dispatcher.dispatch({
+      payload: item,
+      type: 'item:undoItem'
+    });
   }
 };
 
@@ -31432,10 +31444,55 @@ var Item = module.exports = React.createClass({
     event.preventDefault();
     action.delete(this.props.item);
   },
+  toggleDone: function toggleDone(event) {
+    event.preventDefault();
+
+    if (this.props.item.done) {
+      action.doItem(this.props.item);
+    } else {
+      action.undoItem(this.props.item);
+    }
+  },
   render: function render() {
+    var buttonClass, buttonText;
+
+    if (this.props.item.done) {
+      buttonClass = 'btn btn-xs btn-default';
+      buttonText = 'Undo';
+    } else {
+      buttonClass = 'btn btn-xs btn-success';
+      buttonText = 'Done';
+    }
+
     return React.createElement(
       'div',
       { className: 'row' },
+      React.createElement(
+        'div',
+        { className: 'col-md-1' },
+        React.createElement(
+          'form',
+          { action: '', onSubmit: this.delete },
+          React.createElement(
+            'button',
+            { className: 'btn btn-xs btn-danger' },
+            'Delete'
+          )
+        )
+      ),
+      React.createElement(
+        'div',
+        { className: 'col-md-1' },
+        React.createElement(
+          'form',
+          { action: '', onSubmit: this.toggleDone },
+          React.createElement(
+            'button',
+            { className: buttonClass },
+            buttonText
+          )
+        )
+      ),
       React.createElement(
         'div',
         { className: 'col-md-6' },
@@ -31443,19 +31500,6 @@ var Item = module.exports = React.createClass({
           'h4',
           { className: this.props.item.done ? 'strikethrough' : '' },
           this.props.item.name
-        )
-      ),
-      React.createElement(
-        'div',
-        { className: 'col-md-6' },
-        React.createElement(
-          'form',
-          { action: '', onSubmit: this.delete },
-          React.createElement(
-            'button',
-            null,
-            '×'
-          )
         )
       )
     );
@@ -31588,7 +31632,21 @@ function ItemStore() {
       return _item.name === item.name;
     });
 
+    console.log('Deleting item', item.name);
+
     items.splice(index, 1);
+    triggerListeners();
+  }
+
+  function toggleItemDone(item, isDone) {
+    var index = items.findIndex(function (_item) {
+      return _item.name === item.name;
+    });
+
+    console.log('Toggling item', item.name, 'to', item.done);
+
+    items[index].done = !isDone;
+
     triggerListeners();
   }
 
@@ -31612,6 +31670,12 @@ function ItemStore() {
           break;
         case 'delete':
           deleteItem(event.payload);
+          break;
+        case 'doItem':
+          toggleItemDone(event.payload, true);
+          break;
+        case 'undoItem':
+          toggleItemDone(event.payload, false);
           break;
       }
     }

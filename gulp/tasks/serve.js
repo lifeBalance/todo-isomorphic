@@ -9,7 +9,8 @@ var nodemon     = require('gulp-nodemon');
 var config      = require('../config');
 
 gulp.task('serve', ['nodemon'], function() {
-  browserSync.init({
+  browserSync.init(null, {
+    // browser: 'google chrome',
     open: false,
     proxy: config.serve.express,
     port: config.serve.port,  // Where we should point our browser (8080)
@@ -19,11 +20,11 @@ gulp.task('serve', ['nodemon'], function() {
 
 gulp.task('nodemon', function (cb) {
   var called = false;
+
   return nodemon({
     script: 'dist/express/server.js',
     watch: [
-      'dist/express/server.js',
-      'dist/express/views/'
+      'dist/express/'
     ],
     ext: 'js jade'
   })
@@ -36,6 +37,6 @@ gulp.task('nodemon', function (cb) {
   .on('restart', function () {
     setTimeout(function () {
       reload({ stream: false });
-    }, 1000);
+    }, 1000); // 1 second delay
   });
 });

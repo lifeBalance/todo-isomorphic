@@ -27,6 +27,7 @@
     "watchify": "^3.7.0"
   },
   "dependencies": {
+    "body-parser": "^1.15.0",
     "bootstrap-sass": "^3.3.6",
     "express": "^4.13.4",
     "flux": "^2.1.1",

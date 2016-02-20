@@ -1,20 +1,16 @@
 var dispatcher = require('../dispatcher');
+var helper = require('../helpers/RestHelper');
 
 function ItemStore() {
   // var items = [];
-  // Provisionally until the backend is ready
-  var items = [
-    {
-      name: 'Do the laundry.'
-    },
-    {
-      name: 'Take out the trash.'
-    },
-    {
-      name: "Fix garage lights.",
-      done: true
-    },
-  ];
+  var items = [];
+
+  helper.get('api/items')
+    .then(function (data) {
+      items = data;
+      triggerListeners();
+    });
+
   var listeners = [];
 
   function getItems() {

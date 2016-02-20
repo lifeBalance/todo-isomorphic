@@ -31569,6 +31569,24 @@ module.exports = {
 },{"guid":2}],167:[function(require,module,exports){
 'use strict';
 
+var $ = require('jquery');
+
+module.exports = {
+  get: function get(url) {
+    return new Promise(function (success, error) {
+      $.ajax({
+        url: url,
+        dataType: 'json',
+        success: success,
+        error: error
+      });
+    });
+  }
+};
+
+},{"jquery":3}],168:[function(require,module,exports){
+'use strict';
+
 // Bootstrap
 window.$ = window.jQuery = require('jquery');
 var bootstrapJS = require('bootstrap-sass'); // Bootstrap JavaScripts.
@@ -31606,22 +31624,21 @@ itemStore.onChange(function (items) {
 
 render(); // Render before any changes.
 
-},{"./components/ItemList":165,"./stores/ItemStore":168,"bootstrap-sass":1,"jquery":3,"react":161,"react-dom":5}],168:[function(require,module,exports){
+},{"./components/ItemList":165,"./stores/ItemStore":169,"bootstrap-sass":1,"jquery":3,"react":161,"react-dom":5}],169:[function(require,module,exports){
 'use strict';
 
 var dispatcher = require('../dispatcher');
+var helper = require('../helpers/RestHelper');
 
 function ItemStore() {
   // var items = [];
-  // Provisionally until the backend is ready
-  var items = [{
-    name: 'Do the laundry.'
-  }, {
-    name: 'Take out the trash.'
-  }, {
-    name: "Fix garage lights.",
-    done: true
-  }];
+  var items = [];
+
+  helper.get('api/items').then(function (data) {
+    items = data;
+    triggerListeners();
+  });
+
   var listeners = [];
 
   function getItems() {
@@ -31694,7 +31711,7 @@ function ItemStore() {
 }
 module.exports = new ItemStore();
 
-},{"../dispatcher":166}]},{},[167])
+},{"../dispatcher":166,"../helpers/RestHelper":167}]},{},[168])
 
 
 //# sourceMappingURL=../maps/bundle.js.map

@@ -20,6 +20,8 @@ function ItemStore() {
   function addItem(item) {
     items.push(item);
     triggerListeners();
+
+    helper.post('api/items', item);
   }
 
   function deleteItem(item) {

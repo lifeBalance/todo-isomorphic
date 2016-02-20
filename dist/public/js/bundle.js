@@ -31581,6 +31581,17 @@ module.exports = {
         error: error
       });
     });
+  },
+  post: function post(url, data) {
+    return new Promise(function (success, error) {
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: data,
+        success: success,
+        error: error
+      });
+    });
   }
 };
 
@@ -31648,6 +31659,8 @@ function ItemStore() {
   function addItem(item) {
     items.push(item);
     triggerListeners();
+
+    helper.post('api/items', item);
   }
 
   function deleteItem(item) {

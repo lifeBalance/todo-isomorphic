@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "gulp",
-    "dev": "nodemon dist/express/server.js"
+    "dev": "nodemon dist/express/server.js",
+    "seed": "node dist/express/seed.js",
+    "async": "node dist/express/seed-async.js"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +29,7 @@
     "watchify": "^3.7.0"
   },
   "dependencies": {
+    "async": "^1.5.2",
     "body-parser": "^1.15.0",
     "bootstrap-sass": "^3.3.6",
     "express": "^4.13.4",
@@ -34,6 +37,7 @@
     "guid": "0.0.12",
     "jade": "^1.11.0",
     "jquery": "^2.2.0",
+    "mongoose": "^4.1.0",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-router": "^2.0.0"

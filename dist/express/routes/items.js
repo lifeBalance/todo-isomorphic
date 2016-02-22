@@ -1,22 +1,17 @@
 module.exports = function (app) {
-  var items = [
-    {
-      name: 'Do the laundry.'
-    },
-    {
-      name: 'Take out the trash.'
-    },
-    {
-      name: "Fix garage lights.",
-      done: true
-    },
-  ];
+  var Item = require('../models/Item');
+
   app.route('/api/items')
     .get(function (req, res) {
-      res.send(items);
+      Item.find(function (err, data) {
+        res.send(data);
+      });
     })
     .post(function (req, res) {
-      var item = req.body;
-      items.push(item);
+      var _item = req.body;
+      var item = new Item(_item);
+      item.save(function (err, data) {
+        res.status(300).send();
+      });
     });
 }

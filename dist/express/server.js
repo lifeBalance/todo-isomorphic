@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var path = require ('path');
 var parser = require('body-parser');
+require('./database');
 
 // Setting templating engine
 app.set('view engine', 'jade');

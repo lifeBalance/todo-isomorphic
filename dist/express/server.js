@@ -4,6 +4,15 @@ var path = require ('path');
 var parser = require('body-parser');
 require('./database');
 
+// Isomorphic app
+var React           = require('react');
+var ReactDOMServer  = require('react-dom/server')
+
+// Require the register hook before the component!
+require("babel-core/register");
+var ReactApp  = React.createFactory(require('../../src/js/components/ItemList.jsx'));
+var Item      = require('./models/Item');
+
 // Setting templating engine
 app.set('view engine', 'jade');
 // Setting views location
@@ -16,7 +25,13 @@ app.use(parser.json()); // Process json requests
 app.use(parser.urlencoded({extended: false})); // To handle POST requests
 
 app.get('/', function (req, res) {
-  res.render('index', {});
+  var reactHtml;
+
+  Item.find(function (err, data) {
+    reactHtml = ReactDOMServer.renderToString(ReactApp({items: data}));
+  });
+
+  res.render('index', { reactOutput: reactHtml });
 });
 
 

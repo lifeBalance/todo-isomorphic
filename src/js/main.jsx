@@ -7,18 +7,6 @@ var ReactDOM  = require('react-dom');
 var ItemList  = require('./components/ItemList');
 var itemStore = require('./stores/ItemStore');
 
-// var initialItems = [
-//   {
-//     name: 'Do the laundry.'
-//   },
-//   {
-//     name: 'Take out the trash.'
-//   },
-//   {
-//     name: "Fix garage lights.",
-//     done: true
-//   },
-// ];
 var initialItems = itemStore.getItems();
 
 function render() {

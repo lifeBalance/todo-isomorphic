@@ -9,7 +9,8 @@ var React           = require('react');
 var ReactDOMServer  = require('react-dom/server')
 
 // Require the register hook before the component!
-require("babel-core/register");
+require("babel-register");
+
 var ReactApp  = React.createFactory(require('../../src/js/components/ItemList.jsx'));
 var Item      = require('./models/Item');
 

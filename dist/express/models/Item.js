@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var ItemSchema = {
   name: String,
-  done: Boolean,
+  done: {type: Boolean, default: false},
   id: String
 };
 

@@ -31592,6 +31592,27 @@ module.exports = {
         error: error
       });
     });
+  },
+  patch: function patch(url, data) {
+    return new Promise(function (success, error) {
+      $.ajax({
+        url: url,
+        type: 'PATCH',
+        data: data,
+        success: success,
+        error: error
+      });
+    });
+  },
+  del: function del(url) {
+    return new Promise(function (success, error) {
+      $.ajax({
+        url: url,
+        type: 'DELETE',
+        success: success,
+        error: error
+      });
+    });
   }
 };
 
@@ -31672,6 +31693,8 @@ function ItemStore() {
 
     items.splice(index, 1);
     triggerListeners();
+
+    helper.del('/api/items/' + item._id);
   }
 
   function toggleItemDone(item, isDone) {
@@ -31684,6 +31707,8 @@ function ItemStore() {
     items[index].done = !isDone;
 
     triggerListeners();
+
+    helper.patch('/api/items/' + item._id, item);
   }
 
   function onChange(listener) {

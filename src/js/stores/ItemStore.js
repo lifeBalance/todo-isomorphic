@@ -33,6 +33,8 @@ function ItemStore() {
 
     items.splice(index, 1);
     triggerListeners();
+
+    helper.del('/api/items/' + item._id);
   }
 
   function toggleItemDone(item, isDone) {
@@ -45,6 +47,8 @@ function ItemStore() {
     items[index].done = !isDone;
 
     triggerListeners();
+
+    helper.patch('/api/items/' + item._id, item);
   }
 
   function onChange(listener) {
